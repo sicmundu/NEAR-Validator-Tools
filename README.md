@@ -16,9 +16,10 @@ pip install pyTelegramBotAPI
 <br>network = "NETWORK" //example: testnet
 6. Run bot:
 python3 near.py
-
+7. /start to get commands!
 
 <br>Main features at the moment:
 <br>Get the status of a node;
 <br>Restart, start and stop the node
 <br>Get logs
+![image](https://user-images.githubusercontent.com/21222764/139135195-f4cde895-5c97-4c9c-9ccf-f14a470b84cc.png)
