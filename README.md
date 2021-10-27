@@ -10,9 +10,9 @@ sudo apt install python3 pip3 pip -y
 4. Install Telebot Python package (https://pypi.org/project/pyTelegramBotAPI/):
 pip install pyTelegramBotAPI
 5. Edit near.py:
-bot = telebot.TeleBot('YOUR_API_TOKEN')
-node = "YOUR_POOL" //example: p0s.pool.f863973.m0
-account = "YOUR_ACCOUNT" //example: p0k.testnet
-network = "NETWORK" //example: testnet
+<br>bot = telebot.TeleBot('YOUR_API_TOKEN')
+<br>node = "YOUR_POOL" //example: p0s.pool.f863973.m0
+<br>account = "YOUR_ACCOUNT" //example: p0k.testnet
+<br>network = "NETWORK" //example: testnet
 6. Run bot:
 python3 near.py
