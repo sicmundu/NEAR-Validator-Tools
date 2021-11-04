@@ -1,0 +1,11 @@
+[Unit]
+Description=NEAR Validator Bot
+After=multi-user.target
+
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /root/NEAR-Validator-Bot/near.py
+
+[Install]
+WantedBy=multi-user.target
