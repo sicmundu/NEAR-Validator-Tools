@@ -19,13 +19,14 @@ echo 'Enter your account (example: NEARVALIDATOR.testnet)'
 read s
 
 cat >> $homedir/ping.sh << EOF
-
 #!/bin/bash
 export NEAR_ENV=$m
 ACCOUNT=$s
 POOL=$n
 near call $n ping '{}' --accountId $s --gas=300000000000000
 EOF
+
+chmod +x $homedir/ping.sh
 
 # Adding to Cron
 crontab -l > mycron
@@ -34,3 +35,5 @@ echo "0 */1 * * * $homedir/ping.sh >> homedir/near.log 2&1" >> mycron
 # install new cron file
 crontab mycron
 rm -f mycron
+
+echo "Ping Installed!"
