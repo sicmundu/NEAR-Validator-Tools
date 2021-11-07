@@ -31,7 +31,7 @@ How to use:
 <br>Restart, start and stop the node
 <br>Get logs
 
-#Hot to install NEAR Validator PING
+# Hot to install NEAR Validator PING
 1. Download Install Ping script: 
 <br><code>wget https://raw.githubusercontent.com/grodstrike/NEAR-Validator-Bot/main/ping_install.sh && chmod +x ping_install.sh</code>
 2. Run Install Script:
