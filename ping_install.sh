@@ -1,4 +1,4 @@
-#!/bin/bash/
+#!/bin/bash
 echo "
 +----------------------------------------------------------------------
 | PING NEAR VALIDATOR INSTALL
@@ -18,7 +18,7 @@ read m
 echo 'Enter your account (example: NEARVALIDATOR.testnet)'
 read s
 
-cat >> homedir/ping.sh << EOF
+cat >> $homedir/ping.sh << EOF
 
 #!/bin/bash
 export NEAR_ENV=$m
@@ -30,8 +30,7 @@ EOF
 # Adding to Cron
 crontab -l > mycron
 # echo new cron into cron file
-echo "0 */1 * * * /bin/bash homedir/ping.sh >> homedir/near.log 2&1" >> mycron
+echo "0 */1 * * * $homedir/ping.sh >> homedir/near.log 2&1" >> mycron
 # install new cron file
 crontab mycron
 rm -f mycron
-systemctl restart crond
