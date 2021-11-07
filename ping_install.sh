@@ -23,6 +23,9 @@ cat >> $homedir/ping.sh << EOF
 export NEAR_ENV=$m
 ACCOUNT=$s
 POOL=$n
+D=$(date  +%Y-%m-%d)
+T=$(date +%H:%M:%S)
+echo "$D" "$T"
 near call $n ping '{}' --accountId $s --gas=300000000000000
 EOF
 
