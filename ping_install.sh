@@ -6,28 +6,56 @@ echo "
 +----------------------------------------------------------------------
 | Copyright © 2015-2021 All rights reserved.
 +----------------------------------------------------------------------
-| 
+|
 +----------------------------------------------------------------------
-";sleep 5
+";sleep 1
 
 homedir=$HOME
 
-echo "Enter your pool (example: nearvalidator.pool.f863973.m0)"
-read n
-echo "Enter NEAR NETWORK (example: testnet)"
-read m
-echo 'Enter your account (example: NEARVALIDATOR.testnet)'
-read s
+networkSelect()
+{
+  PS3="Enter a number: "
+  options=("Testnet" "Guildnet" "Mainnet")
+  select opt in "${options[@]}"
+  do
+    case $opt in
+       "Testnet")
+         NETWORK="testnet"
+         POOL='.pool.f863973.m0'
+         ACCOUNT='.testnet'
+         break
+         ;;
+       "Guildnet")
+         NETWORK="guildnet"
+         POOL='.stake.guildnet'
+         ACCOUNT='.guildnet'
+         break
+         ;;
+       "Mainnet")
+         NETWORK="mainnet"
+         POOL='.poolv1.near'
+         ACCOUNT='.near'
+         break
+         ;;
+
+    esac
+  done
+
+}
+
+networkSelect
+sleep 0.5
+echo 'Enter your pool name (example: chester-validator)'
+read p
+sleep 0.5
+echo "Enter account name (example: chester)"
+read a
+sleep 0.5
 
 cat >> $homedir/ping.sh << EOF
 #!/bin/bash
-export NEAR_ENV=$m
-ACCOUNT=$s
-POOL=$n
-D=$(date  +%Y-%m-%d)
-T=$(date +%H:%M:%S)
-echo "$D" "$T"
-near call $n ping '{}' --accountId $s --gas=300000000000000
+export NEAR_ENV=$NETWORK
+near call $p$POOL ping '{}' --accountId $a$ACCOUNT --gas=300000000000000
 EOF
 
 chmod +x $homedir/ping.sh
@@ -35,9 +63,13 @@ chmod +x $homedir/ping.sh
 # Adding to Cron
 crontab -l > mycron
 # echo new cron into cron file
-echo "0 */1 * * * $homedir/ping.sh >> homedir/near.log 2&1" >> mycron
+echo "0 */1 * * * $homedir/ping.sh >> $homedir/near.log 2>&1" >> mycron
 # install new cron file
 crontab mycron
 rm -f mycron
 
+echo 'Your pool: '$p$POOL
+echo 'Your account: '$a$ACCOUNT
+echo '----------------------------'
+sleep 1
 echo "Ping Installed!"
