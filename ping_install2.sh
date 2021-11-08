@@ -12,8 +12,6 @@ echo "
 
 homedir=$HOME
 
-read -p "Select NEAR Network [a - c] " network
-case $network in
-   a) echo "Testnet"
-      NETWORK="testnet"
-      ;;
+read -p "Select NEAR Network [1. Testnet; 2. Guildnet 3. Mainnet] " c
+case $c in
+   1) NETWORK="testnet";;
