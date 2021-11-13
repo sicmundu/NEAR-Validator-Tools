@@ -95,7 +95,7 @@ sleep 0.5
 
 if [[ "$NETWORK" == "guildnet" ]]
 then
-  echo 'You have chosen Gildnet. Want to use croncat or crontab?'
+  echo 'You have chosen Guildnet. Want to use croncat or crontab?'
   sleep 0.5
   cronSelect
 else
