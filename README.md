@@ -38,4 +38,4 @@ How to use:
 <br><code>./ping_install.sh</code>
 3. Choose network, enter account and pool. And if a guildnet is selected, then you need to choose a croncat or a crontab.
 <br>
-<br>![image](https://user-images.githubusercontent.com/21222764/139135195-f4cde895-5c97-4c9c-9ccf-f14a470b84cc.png)
+<br>
