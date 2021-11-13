@@ -36,5 +36,6 @@ How to use:
 <br><code>wget https://raw.githubusercontent.com/grodstrike/NEAR-Validator-Bot/main/ping_install.sh && chmod +x ping_install.sh</code>
 2. Run Install Script:
 <br><code>./ping_install.sh</code>
-3. Enter your pool, network and account
-<br>![image](https://user-images.githubusercontent.com/21222764/139135195-f4cde895-5c97-4c9c-9ccf-f14a470b84cc.png)
+3. Choose network, enter account and pool. And if a guildnet is selected, then you need to choose a croncat or a crontab.
+<br>
+<br>
