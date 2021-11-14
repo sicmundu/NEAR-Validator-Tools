@@ -45,7 +45,8 @@ networkSelect()
 
 cronTab()
 {
-cat >> $homedir/ping3.sh << EOF
+rm $homedir/ping.sh  
+cat >> $homedir/ping.sh << EOF
 #!/bin/bash
 export NEAR_ENV=$NETWORK
 near call $p$POOL ping '{}' --accountId $a$ACCOUNT --gas=300000000000000
