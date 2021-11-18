@@ -1,5 +1,5 @@
 [Unit]
-Description=CronCat Agen
+Description=CronCat Agent
 After=multi-user.target
 
 [Service]
