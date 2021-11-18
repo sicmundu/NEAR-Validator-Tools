@@ -91,24 +91,72 @@ cronSelect()
 
 }
 
-networkSelect
-sleep 0.5
-echo 'Enter your pool name (example: chester-validator)'
-read p
-sleep 0.5
-echo "Enter account name (example: chester)"
-read a
-sleep 0.5
-echo 'Want to use croncat or crontab?'
-sleep 0.5
-cronSelect
+main()
+{
+  networkSelect
+  sleep 0.5
+  echo 'Enter your pool name (example: chester-validator)'
+  read p
+  sleep 0.5
+  echo "Enter account name (example: chester)"
+  read a
+  sleep 0.5
+  echo 'Want to use croncat or crontab?'
+  sleep 0.5
+  cronSelect
 
 
 
 
-echo 'Selected network: '$NETWORK
-echo 'Your pool: '$p$POOL
-echo 'Your account: '$a$ACCOUNT
-echo '----------------------------'
-sleep 1
-echo "Ping Installed!"
+  echo 'Selected network: '$NETWORK
+  echo 'Your pool: '$p$POOL
+  echo 'Your account: '$a$ACCOUNT
+  echo '----------------------------'
+  echo 'Do you want install CronCat Agent? Check it out: https://docs.cron.cat/docs/agent-cli/'
+    PS3="Enter a number: "
+    options=("Yes" "No")
+    select opt in "${options[@]}"
+    do
+      case $opt in
+         "Yes")
+           createAgent
+           break
+           ;;
+         "No")
+           sleep 1
+           echo "Ping Installed!"
+           break
+           ;;
+
+
+      esac
+    done
+
+
+}
+
+createAgent()
+{
+  echo 'Installing Croncat..'
+  sleep 0.5
+  npm i -g croncat
+  echo 'Registering Agent..'
+  sleep 0.5
+  croncat register $a$ACCOUNT $a$ACCOUNT
+  echo 'Installing Croncat service..'
+  sleep 0.2
+  mkdir -p $homedir/.croncat
+  wget -P $homedir/.croncat https://raw.githubusercontent.com/grodstrike/NEAR-Validator-Tools/main/croncat.service
+  sed 's/ACCOUNT/'$a$ACCOUNT'/g' $homedir/.croncat/croncat.service | sudo tee $homedir/.croncat/croncat.service
+  sudo systemctl link $homedir/.croncat/croncat.service
+  sudo systemctl daemon-reload
+  echo 'CronCat Agent insalled! Starting..'
+  sleep 0.5
+  sudo systemctl start croncat.service
+}
+if [ $(id -u) != "0" ]; then
+    echo "Error: You need root"
+    exit 1
+fi
+
+main
