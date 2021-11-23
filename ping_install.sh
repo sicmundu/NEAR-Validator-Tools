@@ -152,6 +152,7 @@ createAgent()
     echo 'Croncat service exists.'
   else
     mkdir -p $DIR
+    
     wget -P $DIR https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
     sed 's/ACCOUNT/'$a$ACCOUNT'/g' $FILE | sudo tee $FILE
     sudo systemctl link $FILE
