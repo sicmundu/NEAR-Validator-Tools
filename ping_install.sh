@@ -2,7 +2,7 @@
 echo "
 +----------------------------------------------------------------------
 | PING NEAR VALIDATOR INSTALL
-| Version: 0.8(23/11/2021)
+| Version: 0.8 (23/11/2021)
 +----------------------------------------------------------------------
 | Copyright © 2021 All rights reserved.
 +----------------------------------------------------------------------
@@ -146,14 +146,21 @@ createAgent()
   croncat register $a$ACCOUNT $a$ACCOUNT
   echo 'Installing Croncat service..'
   sleep 0.2
-  mkdir -p $homedir/.croncat
-  wget -P $homedir/.croncat https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
-  sed 's/ACCOUNT/'$a$ACCOUNT'/g' $homedir/.croncat/croncat.service | sudo tee $homedir/.croncat/croncat.service
-  sudo systemctl link $homedir/.croncat/croncat.service
-  sudo systemctl daemon-reload
-  echo 'CronCat Agent installed! Starting..'
-  sleep 0.5
-  sudo systemctl start croncat.service
+  DIR=$homedir/.croncat
+  FILE=$DIR/croncat.service
+  if [ -f "$FILE" ]; then
+    echo 'Croncat service exists.'
+  else
+    mkdir -p $DIR
+    wget -P $DIR https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
+    sed 's/ACCOUNT/'$a$ACCOUNT'/g' $FILE | sudo tee $FILE
+    sudo systemctl link $FILE
+    sudo systemctl daemon-reload
+    echo 'CronCat Agent installed! Starting..'
+    sleep 0.5
+    sudo systemctl start croncat.service 
+  fi 
+ 
 }
 if [ $(id -u) != "0" ]; then
     echo "Error: You need root"
