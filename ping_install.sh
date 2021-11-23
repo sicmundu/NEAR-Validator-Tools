@@ -140,10 +140,29 @@ createAgent()
 {
   echo 'Installing Croncat..'
   sleep 0.5
-  npm i -g croncat
-  echo 'Registering Agent..'
-  sleep 0.5
-  croncat register $a$ACCOUNT $a$ACCOUNT
+  AVERSION=$(curl -s https://github.com/Cron-Near/croncat/releases/latest |  grep -Eo "[0-9].[0-9]*.[0-9]")
+  IVERSION=$(croncat --version)
+  if [ -z $IVERSION ]
+  then
+    echo 'Croncat Agent already installed'
+    if [[ "$AVERSION" == "$IVERSION"  ]]
+    then
+     echo 'You have the latest version installed.'
+     echo 'Installed Croncat version: ' && echo $IVERSION
+    else
+     echo 'You have an old version installed. Updating..'
+     sleep 0.3
+     npm i -g croncat
+     echo 'Updated! New version: ' && echo $AVERSION
+    fi
+  else 
+    npm i -g croncat
+    echo 'Registering Agent..'
+    sleep 0.5
+    croncat register $a$ACCOUNT $a$ACCOUNT
+  fi  
+
+  
   echo 'Installing Croncat service..'
   sleep 0.2
   DIR=$homedir/.croncat
@@ -152,7 +171,6 @@ createAgent()
     echo 'Croncat service exists.'
   else
     mkdir -p $DIR
-    
     wget -P $DIR https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
     sed 's/ACCOUNT/'$a$ACCOUNT'/g' $FILE | sudo tee $FILE
     sudo systemctl link $FILE
