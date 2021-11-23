@@ -87,6 +87,7 @@ cronSelect()
         near view $CONTRACT get_hash '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","owner_id": "'$a$ACCOUNT'"}' > temp
         TASKHASH=$(cat temp | sed -n '2p' | tr -d \')
         TASK=$(near view $CONTRACT get_task '{"task_hash": "'$TASKHASH'"}' | grep $p$POOL)
+        rm temp
         if [ -z "$TASK" ]
         then
           echo 'Creating Croncat task in '$NETOWRK' network with pool: '$p$POOL' and account: '$a$ACCOUNT
