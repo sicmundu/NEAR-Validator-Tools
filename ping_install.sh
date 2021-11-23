@@ -84,7 +84,9 @@ cronSelect()
   do
     case $opt in
        "CronCat")
-        TASK=$(near view manager_v1.cron.testnet get_tasks | grep $p$POOL)
+        near view $CONTRACT get_hash '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 */1 * * *","owner_id": "'$a$ACCOUNT'"}' > temp
+        TASKHASH=$(cat temp | sed -n '2p' | tr -d \')
+        TASK=$(near view $CONTRACT get_task '{"task_hash": "'$TASKHASH'"}' | grep $p$POOL)
         if [ -z "$TASK" ]
         then
           echo 'Creating Croncat task in '$NETOWRK' network with pool: '$p$POOL' and account: '$a$ACCOUNT
