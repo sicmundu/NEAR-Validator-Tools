@@ -116,12 +116,17 @@ main()
   sleep 0.5
   echo 'Enter your pool name (example: chester-validator)'
   read p
+  p=${p%%$POOL}
   sleep 0.5
+  echo '----------'
   echo "Enter account name (example: chester)"
   read a
+  a=${a%%$ACCOUNT}
   sleep 0.5
+  echo '----------'
   echo 'Want to use croncat or crontab?'
   sleep 0.5
+  echo '----------'
   cronSelect
 
 
