@@ -23,13 +23,13 @@ networkSelect()
          NETWORK="testnet"
          POOL='.pool.f863973.m0'
          ACCOUNT='.testnet'
-         CONTRACT = 'manager_v1.cron.testnet'
+         CONTRACT='manager_v1.cron.testnet'
          break
          ;;
        "Guildnet")
          NETWORK="guildnet"
          POOL='.stake.guildnet'
-         CONTRACT = 'manager_v1.croncat.guildnet'
+         CONTRACT='manager_v1.croncat.guildnet'
          ACCOUNT='.guildnet'
          break
          ;;
@@ -37,7 +37,7 @@ networkSelect()
          NETWORK="mainnet"
          POOL='.poolv1.near'
          ACCOUNT='.near'
-         CONTRACT = 'manager_v1.croncat.near'
+         CONTRACT='manager_v1.croncat.near'
          break
          ;;
 
