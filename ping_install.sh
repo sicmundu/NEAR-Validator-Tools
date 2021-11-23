@@ -142,18 +142,18 @@ createAgent()
   sleep 0.5
   AVERSION=$(curl -s https://github.com/Cron-Near/croncat/releases/latest |  grep -Eo "[0-9].[0-9]*.[0-9]")
   IVERSION=$(croncat --version)
-  if [ -z $IVERSION ]
+  if [ -n $IVERSION ]
   then
     echo 'Croncat Agent already installed'
     if [[ "$AVERSION" == "$IVERSION"  ]]
     then
      echo 'You have the latest version installed.'
-     echo 'Installed Croncat version: ' && echo $IVERSION
+     echo 'Installed Croncat version: '$IVERSION
     else
      echo 'You have an old version installed. Updating..'
      sleep 0.3
      npm i -g croncat
-     echo 'Updated! New version: ' && echo $AVERSION
+     echo 'Updated! New version: '$AVERSION
     fi
   else 
     npm i -g croncat
@@ -169,6 +169,8 @@ createAgent()
   FILE=$DIR/croncat.service
   if [ -f "$FILE" ]; then
     echo 'Croncat service exists.'
+    sleep 0.3
+    echo 'Ping installed!'
   else
     mkdir -p $DIR
     wget -P $DIR https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
