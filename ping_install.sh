@@ -2,9 +2,9 @@
 echo "
 +----------------------------------------------------------------------
 | PING NEAR VALIDATOR INSTALL
-| Version: 0.3 (14/11/2021)
+| Version: 0.8(23/11/2021)
 +----------------------------------------------------------------------
-| Copyright © 2015-2021 All rights reserved.
+| Copyright © 2021 All rights reserved.
 +----------------------------------------------------------------------
 |
 +----------------------------------------------------------------------
@@ -23,11 +23,13 @@ networkSelect()
          NETWORK="testnet"
          POOL='.pool.f863973.m0'
          ACCOUNT='.testnet'
+         CONTRACT = 'manager_v1.cron.testnet'
          break
          ;;
        "Guildnet")
          NETWORK="guildnet"
          POOL='.stake.guildnet'
+         CONTRACT = 'manager_v1.croncat.guildnet'
          ACCOUNT='.guildnet'
          break
          ;;
@@ -35,6 +37,7 @@ networkSelect()
          NETWORK="mainnet"
          POOL='.poolv1.near'
          ACCOUNT='.near'
+         CONTRACT = 'manager_v1.croncat.near'
          break
          ;;
 
@@ -51,9 +54,11 @@ cat >> $homedir/ping.sh << EOF
 export NEAR_ENV=$NETWORK
 near call $p$POOL ping '{}' --accountId $a$ACCOUNT --gas=300000000000000
 EOF
-
+  echo 'Creating Ping.sh ...'
+  sleep 0.3
   chmod +x $homedir/ping.sh
-
+  echo 'Adding to crontab..'
+  sleep 0.3
   # Adding to Cron
   crontab -l > mycron
   # echo new cron into cron file
@@ -71,18 +76,9 @@ cronSelect()
   do
     case $opt in
        "CronCat")
-        if [[ "$NETWORK" == "guildnet" ]]
-        then
-          near call manager_v1.croncat.guildnet create_task '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","recurring": true,"deposit": "0","gas": 9000000000000}' --accountId $a$ACCOUNT --amount 10
-        elif [[ "$NETWORK" == "testnet" ]]
-        then
-          near call manager_v1.cron.testnet create_task '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","recurring": true,"deposit": "0","gas": 9000000000000}' --accountId $a$ACCOUNT --amount 10
-        
-        elif [[ "$NETWORK" == "mainnet" ]]
-        then  
-          near call manager_v1.croncat.near create_task '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","recurring": true,"deposit": "0","gas": 9000000000000}' --accountId $a$ACCOUNT --amount 4
-        
-        fi
+        echo 'Creating Croncat task..'
+        sleep 0.2
+        near call $CONTRACT create_task '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","recurring": true,"deposit": "0","gas": 9000000000000}' --accountId $a$ACCOUNT --amount 5
         echo -e "@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@\n @@@@@@@@(((((@@@@@(((((((((((((((((((((((((((((((((((((((((((((@@@@@(((((&&#((@@\n @@@@@@&@((((((((((@@%(((((((((((((((((((((((((((((((((((((((@@@((((((((((&&#((@@\n @@@@@@@@&&@@@@@     @@@@@%(((((((((((((((((((((((((((((&&&@@(((((@@@@@&&&&&#((@@\n @@@@@@&&%%@@@@@@@@     ..@@@(((((((((((((((((((((((((&&((((((((@@@@@@@%%%&&#((@@\n @@@@@&&&..&&&@@@@@@@     ...@@@@@@@@@@@@@@@@@@@@@@@@@(((((((@@@@@@@@@@(((&&#((@@\n @@@@@&&&  ###&&@@@@@&&&       ........((((((((((((((((((((@@@@@@@@@@%%(((&&#((@@\n @@@@@&&&     ..,,,//###,.             ((((((((((((((((((((%%###((((((((((%%#((@@\n @@@@@&&&            ...               (((((((((((((((((((((((((((((((((((%%#((@@\n @@@@@&&&                              (((((((((((((((((((((((((((((((((((%%#((@@\n @@@@@&&&                                (((((((((((((((((((((((((((((((((%%#((@@\n @@@@@&&&                                (((((((((((((((((((((((((((((((((##(((@@\n @@@@@&&&                                ((((((((((((((((((((((((((((((((((((((@@\n @@@@&///                                (((((((((((((((((((((((((((((((((((&&&@@\n @@@@&,,,                                   ((((((((((((((((((((((((((((((((&&&@@\n @@@@&                                      ((((((((((((((((((((((((((((((((&%%@@\n @@@&&               @@@@@@@@,,...          ((((((((((@@@@@@@(((((((((((((((&%%@@\n @@@&&             @@        @@...            (((((@@@(((((((@@@((((((((((((%%%@@\n &&&((                                        (((((((((((((((((((((((((((((((((@@\n &&&..                              @@@@@@@@@@   ((((((((((((((((((((((((((((((&&\n &&&..                              ...@@@@@..     ((((((((((((((((((((((((((((@@\n &&&..                                 ,,,,,            (((((((((((((((((((((((@@\n &&&,,...                              .....               ((((((((((((((((((((@@\n &&&&&,,,                         .....@@@@@.....               ((((((((((((&&&@@\n @@@&&@@@..             //%%%.....@@@@@&&&&&@@@@@.....%%///          (((((&&#%%@@\n @@@@@&&&@@...            ,,,@@@@@&&&&&%%%%%&&&&&@@@@@,,             ..@&&%%(((@@\n @@@@@@@@**&&&,,...       ...,,@@@%%%%%##%%%%%%%%@@,,,..          ...&&(%#(((((@@\n @@@@@@@@  ,,,&&,,,..        ..@@@%%%%%((%%%%%%%%@@...       ...,,&&&##%(((((((@@\n @@@@@@@@@@@@@%%&&&%%,,,.....  ...@@   %%%%%  @@@..        ,,%%%&&%%%@@@@@@@@@@@@\n @@@@@@@@@@@@@@@%%%##&&&%%,,,,,...  @@@@@@@@@@.  ..**,((%%%&&%##%%%@@@@@@@@@@@@@@\n @@@@@@@@@@@@@@@@@@@@%%%##&&&&&%%%,,,,,,,,,,,,,,,%%&&&&&%##%%%@@@@@@@@@@@@@@@@@@@\n @@@@@@@@@@@@@@@@@@@@@@@@@&&&%%###&&&&&&&&&&&&&&&##%%%&&&@@@@@@@@@@@@@@@@@@@@@@@@\n"
          break
          ;;
@@ -151,11 +147,11 @@ createAgent()
   echo 'Installing Croncat service..'
   sleep 0.2
   mkdir -p $homedir/.croncat
-  wget -P $homedir/.croncat https://raw.githubusercontent.com/grodstrike/NEAR-Validator-Tools/main/croncat.service
+  wget -P $homedir/.croncat https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
   sed 's/ACCOUNT/'$a$ACCOUNT'/g' $homedir/.croncat/croncat.service | sudo tee $homedir/.croncat/croncat.service
   sudo systemctl link $homedir/.croncat/croncat.service
   sudo systemctl daemon-reload
-  echo 'CronCat Agent insalled! Starting..'
+  echo 'CronCat Agent installed! Starting..'
   sleep 0.5
   sudo systemctl start croncat.service
 }
