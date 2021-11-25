@@ -84,7 +84,7 @@ cronSelect()
   do
     case $opt in
        "CronCat")
-        near view $CONTRACT get_hash '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","owner_id": "'$a$ACCOUNT'"}' > temp
+        near view $CONTRACT get_hash '{"contract_id": "'$p$POOL'","function_id": "ping","cadence": "0 0 * * * *","owner_id": "'$a$ACCOUNT'"}' > temp 2>&1
         TASKHASH=$(cat temp | sed -n '2p' | tr -d \')
         TASK=$(near view $CONTRACT get_task '{"task_hash": "'$TASKHASH'"}' | grep $p$POOL)
         rm temp
