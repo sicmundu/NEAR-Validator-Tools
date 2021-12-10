@@ -55,7 +55,7 @@ if [ -f "$PING" ]; then
   rm $PING
 else
   echo "Creating ping file.."
-  read 0.2
+  sleep 0.2
 fi  
 cat >> $homedir/ping.sh << EOF
 #!/bin/bash
