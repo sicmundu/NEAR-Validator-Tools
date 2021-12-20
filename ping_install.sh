@@ -199,31 +199,6 @@ createAgent()
     croncat register $a$ACCOUNT $a$ACCOUNT
   fi  
 
-  
-  echo 'Installing Croncat service..'
-  if [ $(id -u) != "0" ]; then
-    echo "Error: You need root to install Croncat service"
-    exit 1
-  else
-    sleep 0.2
-    DIR=$homedir/.croncat
-    FILE=$DIR/croncat.service
-    if [ -f "$FILE" ]; then
-      echo 'Croncat service exists.'
-      sleep 0.3
-      echo 'Ping installed!'
-    else
-      mkdir -p $DIR
-      wget -P $DIR https://raw.githubusercontent.com/sicmundu/NEAR-Validator-Tools/main/croncat.service
-      sed 's/ACCOUNT/'$a$ACCOUNT'/g' $FILE | sudo tee $FILE
-      sudo systemctl link $FILE
-      sudo systemctl daemon-reload
-      echo 'CronCat Agent installed! Starting..'
-      sleep 0.5
-      sudo systemctl start croncat.service 
-    fi 
-
-  fi  
 
   
  
