@@ -23,7 +23,7 @@ networkSelect()
          NETWORK="testnet"
          POOL='.pool.f863973.m0'
          ACCOUNT='.testnet'
-         CONTRACT='manager_v1.cron.testnet'
+         CONTRACT='manager_v1.croncat.testnet'
          break
          ;;
        "Guildnet")
